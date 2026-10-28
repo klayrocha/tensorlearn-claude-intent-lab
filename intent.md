@@ -15,10 +15,10 @@ nothing below is approved by it alone).
 - **O-1.** When a result is ready for the patient's review, the patient is notified that an
   update is available and is directed to view it in the existing authenticated portal.
   (PRD N-17, Problem and outcome.)
-- **I-1. Review-before-notification gate.** A notification is eligible only when all of the
-  following are true: the lab upload is complete, a doctor has reviewed the result, and the
-  doctor has released it. A finished lab upload on its own never counts as "ready". This
-  applies to every released result, not only abnormal ones. (PRD N-17: "A doctor must review
+- **I-1. Review-before-notification gate.** A notification is eligible only when a doctor has
+  reviewed the result and released it. A completed lab upload does not make a result
+  eligible and never counts as "ready". This applies to every released result, not only
+  abnormal ones. (PRD N-17: "A doctor must review
   and release the result before any notification is eligible."; product owner: "'Ready' must
   not mean that the laboratory upload merely finished.")
 
@@ -39,8 +39,8 @@ nothing below is approved by it alone).
 - **Doctors:** they review and release results, which is the trigger for eligibility.
 - **Support staff:** they handle the status calls and report the status-only call count.
 - **Existing authenticated portal and its result route:** where the patient views the result.
-- **Lab result upload and the doctor review/release workflow:** the source of the gate
-  conditions.
+- **Doctor review/release workflow:** the source of the gate (see I-1). A completed lab
+  upload alone does not trigger anything.
 - **Notification delivery and its logs:** these must carry no clinical detail.
 
 ## Scope
@@ -91,7 +91,7 @@ nothing below is approved by it alone).
 
 ```json
 {
-  "notifyWhen": ["lab-upload-complete", "doctor-reviewed", "released"],
+  "notifyWhen": ["doctor-reviewed", "released"],
   "messageMayInclude": ["update-available"],
   "inScope": ["existing-portal-route", "duplicate-prevention", "delivery-failure-handling"],
   "openDecisions": [
